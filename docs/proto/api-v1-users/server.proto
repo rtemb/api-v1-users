@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package api.v1.users;
+
+//import "google/api/annotations.proto";
+import "github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis/google/api/annotations.proto";
+
+service UsersAPIService {
+    rpc CreateUser (CreateUserRequest) returns (CreateUserResponse) {
+        option (google.api.http) = {
+            post: "/v1/users/user"
+            body: "*"
+        };
+    }
+
+    rpc Auth (AuthRequest) returns (AuthResponse) {
+        option (google.api.http) = {
+            post: "/v1/users/auth"
+            body: "*"
+        };
+    }
+}
+
+message AuthRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message AuthResponse {
+    string token = 1;
+    bool valid = 2;
+    repeated Error errors = 3;
+}
+
+message Error {
+    int32 code = 1;
+    string description = 2;
+}
+
+message CreateUserRequest {
+    string email = 1;
+    string password = 2;
+    string company = 3;
+}
+
+message CreateUserResponse {
+    ResponseStateCode stateCode = 1;
+}
+
+enum ResponseStateCode {
+    CREATED = 0;
+}
