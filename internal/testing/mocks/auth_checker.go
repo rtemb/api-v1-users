@@ -4,7 +4,7 @@ package mocks
 import (
 	"sync"
 
-	"gitlab.com/rtemb/api-v1-users/internal/middleware"
+	"github.com/rtemb/api-v1-users/internal/middleware"
 )
 
 type AuthCheckerMock struct {

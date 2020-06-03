@@ -4,13 +4,13 @@ import (
 	"context"
 	"testing"
 
+	"github.com/rtemb/api-v1-users/internal/api"
+	proto "github.com/rtemb/api-v1-users/internal/proto/api-v1-users"
+	"github.com/rtemb/api-v1-users/internal/testing/mocks"
 	"github.com/sirupsen/logrus"
 	"github.com/sirupsen/logrus/hooks/test"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"gitlab.com/rtemb/api-v1-users/internal/api"
-	proto "gitlab.com/rtemb/api-v1-users/internal/proto/api-v1-users"
-	"gitlab.com/rtemb/api-v1-users/internal/testing/mocks"
 )
 
 func TestHandler_AuthSuccess(t *testing.T) {

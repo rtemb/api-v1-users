@@ -12,10 +12,10 @@ import (
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/pkg/errors"
+	"github.com/rtemb/api-v1-users/internal/config"
+	"github.com/rtemb/api-v1-users/internal/middleware"
+	apiUsers "github.com/rtemb/api-v1-users/internal/proto/api-v1-users"
 	"github.com/sirupsen/logrus"
-	"gitlab.com/rtemb/api-v1-users/internal/config"
-	"gitlab.com/rtemb/api-v1-users/internal/middleware"
-	apiUsers "gitlab.com/rtemb/api-v1-users/internal/proto/api-v1-users"
 	"google.golang.org/grpc"
 )
 

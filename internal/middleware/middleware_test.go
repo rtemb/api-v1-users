@@ -6,12 +6,12 @@ import (
 	"testing"
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	mw "github.com/rtemb/api-v1-users/internal/middleware"
+	"github.com/rtemb/api-v1-users/internal/testing/mocks"
 	"github.com/sirupsen/logrus"
 	"github.com/sirupsen/logrus/hooks/test"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	mw "gitlab.com/rtemb/api-v1-users/internal/middleware"
-	"gitlab.com/rtemb/api-v1-users/internal/testing/mocks"
 )
 
 func TestRequestMiddleware_LogRequests(t *testing.T) {

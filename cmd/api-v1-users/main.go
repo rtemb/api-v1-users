@@ -2,13 +2,13 @@ package main
 
 import (
 	"github.com/pkg/errors"
+	"github.com/rtemb/api-v1-users/internal/api"
+	"github.com/rtemb/api-v1-users/internal/auth"
+	"github.com/rtemb/api-v1-users/internal/config"
+	"github.com/rtemb/api-v1-users/internal/middleware"
+	"github.com/rtemb/api-v1-users/internal/service"
+	"github.com/rtemb/api-v1-users/pkg/version"
 	"github.com/sirupsen/logrus"
-	"gitlab.com/rtemb/api-v1-users/internal/api"
-	"gitlab.com/rtemb/api-v1-users/internal/auth"
-	"gitlab.com/rtemb/api-v1-users/internal/config"
-	"gitlab.com/rtemb/api-v1-users/internal/middleware"
-	service "gitlab.com/rtemb/api-v1-users/internal/service"
-	"gitlab.com/rtemb/api-v1-users/pkg/version"
 )
 
 func main() {

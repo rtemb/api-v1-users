@@ -3,7 +3,7 @@ package api
 import (
 	"context"
 
-	apiUsers "gitlab.com/rtemb/api-v1-users/internal/proto/api-v1-users"
+	apiUsers "github.com/rtemb/api-v1-users/internal/proto/api-v1-users"
 )
 
 func (s *Handler) Auth(ctx context.Context, req *apiUsers.AuthRequest) (*apiUsers.AuthResponse, error) {

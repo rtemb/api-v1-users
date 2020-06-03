@@ -1,4 +1,4 @@
-module gitlab.com/rtemb/api-v1-users
+module github.com/rtemb/api-v1-users
 
 go 1.13
 

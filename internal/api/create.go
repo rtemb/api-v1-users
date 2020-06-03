@@ -3,7 +3,7 @@ package api
 import (
 	"context"
 
-	apiUsers "gitlab.com/rtemb/api-v1-users/internal/proto/api-v1-users"
+	apiUsers "github.com/rtemb/api-v1-users/internal/proto/api-v1-users"
 )
 
 func (s *Handler) CreateUser(ctx context.Context, req *apiUsers.CreateUserRequest) (*apiUsers.CreateUserResponse, error) {

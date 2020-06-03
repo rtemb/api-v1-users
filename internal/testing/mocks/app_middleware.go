@@ -6,7 +6,7 @@ import (
 	"sync"
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
-	"gitlab.com/rtemb/api-v1-users/internal/middleware"
+	"github.com/rtemb/api-v1-users/internal/middleware"
 )
 
 type AppMiddlewareMock struct {
