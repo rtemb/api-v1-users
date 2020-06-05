@@ -1,13 +1,16 @@
 package api
 
 import (
+	"context"
+
+	apiUsers "github.com/rtemb/api-v1-users/internal/proto/api-v1-users"
 	"github.com/sirupsen/logrus"
 )
 
 //go:generate go run github.com/maxbrunsfeld/counterfeiter/v6 --fake-name HandlerServiceMock -o ../testing/mocks/handler_service.go . HandlerService
 type HandlerService interface {
-	CreateUser() error
-	Auth() error
+	CreateUser(ctx context.Context, req *apiUsers.CreateUserRequest) error
+	Auth(ctx context.Context, req *apiUsers.AuthRequest) (*apiUsers.AuthResponse, error)
 }
 
 type Handler struct {

@@ -2,25 +2,33 @@
 package mocks
 
 import (
+	"context"
 	"sync"
 
 	"github.com/rtemb/api-v1-users/internal/api"
+	api_v1_users "github.com/rtemb/api-v1-users/internal/proto/api-v1-users"
 )
 
 type HandlerServiceMock struct {
-	AuthStub        func() error
+	AuthStub        func(context.Context, *api_v1_users.AuthRequest) (*api_v1_users.AuthResponse, error)
 	authMutex       sync.RWMutex
 	authArgsForCall []struct {
+		arg1 context.Context
+		arg2 *api_v1_users.AuthRequest
 	}
 	authReturns struct {
-		result1 error
+		result1 *api_v1_users.AuthResponse
+		result2 error
 	}
 	authReturnsOnCall map[int]struct {
-		result1 error
+		result1 *api_v1_users.AuthResponse
+		result2 error
 	}
-	CreateUserStub        func() error
+	CreateUserStub        func(context.Context, *api_v1_users.CreateUserRequest) error
 	createUserMutex       sync.RWMutex
 	createUserArgsForCall []struct {
+		arg1 context.Context
+		arg2 *api_v1_users.CreateUserRequest
 	}
 	createUserReturns struct {
 		result1 error
@@ -32,21 +40,23 @@ type HandlerServiceMock struct {
 	invocationsMutex sync.RWMutex
 }
 
-func (fake *HandlerServiceMock) Auth() error {
+func (fake *HandlerServiceMock) Auth(arg1 context.Context, arg2 *api_v1_users.AuthRequest) (*api_v1_users.AuthResponse, error) {
 	fake.authMutex.Lock()
 	ret, specificReturn := fake.authReturnsOnCall[len(fake.authArgsForCall)]
 	fake.authArgsForCall = append(fake.authArgsForCall, struct {
-	}{})
-	fake.recordInvocation("Auth", []interface{}{})
+		arg1 context.Context
+		arg2 *api_v1_users.AuthRequest
+	}{arg1, arg2})
+	fake.recordInvocation("Auth", []interface{}{arg1, arg2})
 	fake.authMutex.Unlock()
 	if fake.AuthStub != nil {
-		return fake.AuthStub()
+		return fake.AuthStub(arg1, arg2)
 	}
 	if specificReturn {
-		return ret.result1
+		return ret.result1, ret.result2
 	}
 	fakeReturns := fake.authReturns
-	return fakeReturns.result1
+	return fakeReturns.result1, fakeReturns.result2
 }
 
 func (fake *HandlerServiceMock) AuthCallCount() int {
@@ -55,44 +65,56 @@ func (fake *HandlerServiceMock) AuthCallCount() int {
 	return len(fake.authArgsForCall)
 }
 
-func (fake *HandlerServiceMock) AuthCalls(stub func() error) {
+func (fake *HandlerServiceMock) AuthCalls(stub func(context.Context, *api_v1_users.AuthRequest) (*api_v1_users.AuthResponse, error)) {
 	fake.authMutex.Lock()
 	defer fake.authMutex.Unlock()
 	fake.AuthStub = stub
 }
 
-func (fake *HandlerServiceMock) AuthReturns(result1 error) {
+func (fake *HandlerServiceMock) AuthArgsForCall(i int) (context.Context, *api_v1_users.AuthRequest) {
+	fake.authMutex.RLock()
+	defer fake.authMutex.RUnlock()
+	argsForCall := fake.authArgsForCall[i]
+	return argsForCall.arg1, argsForCall.arg2
+}
+
+func (fake *HandlerServiceMock) AuthReturns(result1 *api_v1_users.AuthResponse, result2 error) {
 	fake.authMutex.Lock()
 	defer fake.authMutex.Unlock()
 	fake.AuthStub = nil
 	fake.authReturns = struct {
-		result1 error
-	}{result1}
+		result1 *api_v1_users.AuthResponse
+		result2 error
+	}{result1, result2}
 }
 
-func (fake *HandlerServiceMock) AuthReturnsOnCall(i int, result1 error) {
+func (fake *HandlerServiceMock) AuthReturnsOnCall(i int, result1 *api_v1_users.AuthResponse, result2 error) {
 	fake.authMutex.Lock()
 	defer fake.authMutex.Unlock()
 	fake.AuthStub = nil
 	if fake.authReturnsOnCall == nil {
 		fake.authReturnsOnCall = make(map[int]struct {
-			result1 error
+			result1 *api_v1_users.AuthResponse
+			result2 error
 		})
 	}
 	fake.authReturnsOnCall[i] = struct {
-		result1 error
-	}{result1}
+		result1 *api_v1_users.AuthResponse
+		result2 error
+	}{result1, result2}
 }
 
-func (fake *HandlerServiceMock) CreateUser() error {
+func (fake *HandlerServiceMock) CreateUser(arg1 context.Context, arg2 *api_v1_users.CreateUserRequest) error {
 	fake.createUserMutex.Lock()
 	ret, specificReturn := fake.createUserReturnsOnCall[len(fake.createUserArgsForCall)]
 	fake.createUserArgsForCall = append(fake.createUserArgsForCall, struct {
-	}{})
-	fake.recordInvocation("CreateUser", []interface{}{})
+		arg1 context.Context
+		arg2 *api_v1_users.CreateUserRequest
+	}{arg1, arg2})
+	fake.recordInvocation("CreateUser", []interface{}{arg1, arg2})
 	fake.createUserMutex.Unlock()
 	if fake.CreateUserStub != nil {
-		return fake.CreateUserStub()
+		return fake.CreateUserStub(arg1, arg2)
 	}
 	if specificReturn {
 		return ret.result1
@@ -107,10 +129,17 @@ func (fake *HandlerServiceMock) CreateUserCallCount() int {
 	return len(fake.createUserArgsForCall)
 }
 
-func (fake *HandlerServiceMock) CreateUserCalls(stub func() error) {
+func (fake *HandlerServiceMock) CreateUserCalls(stub func(context.Context, *api_v1_users.CreateUserRequest) error) {
 	fake.createUserMutex.Lock()
 	defer fake.createUserMutex.Unlock()
 	fake.CreateUserStub = stub
+}
+
+func (fake *HandlerServiceMock) CreateUserArgsForCall(i int) (context.Context, *api_v1_users.CreateUserRequest) {
+	fake.createUserMutex.RLock()
+	defer fake.createUserMutex.RUnlock()
+	argsForCall := fake.createUserArgsForCall[i]
+	return argsForCall.arg1, argsForCall.arg2
 }
 
 func (fake *HandlerServiceMock) CreateUserReturns(result1 error) {

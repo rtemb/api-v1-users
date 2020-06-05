@@ -1,6 +1,7 @@
 package api_test
 
 import (
+	"context"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -11,7 +12,7 @@ import (
 	"github.com/rtemb/api-v1-users/internal/auth"
 	"github.com/rtemb/api-v1-users/internal/config"
 	"github.com/rtemb/api-v1-users/internal/middleware"
-	"github.com/rtemb/api-v1-users/internal/service"
+	apiUsers "github.com/rtemb/api-v1-users/internal/proto/api-v1-users"
 	"github.com/rtemb/api-v1-users/internal/testing/mocks"
 	"github.com/rtemb/api-v1-users/pkg/version"
 	"github.com/sirupsen/logrus"
@@ -26,7 +27,25 @@ type APITestSuite struct {
 }
 
 func (a *APITestSuite) SetupSuite() {
+	a.handlerServiceMock = &mocks.HandlerServiceMock{}
+	a.handlerServiceMock.AuthCalls(func(ctx context.Context, request *apiUsers.AuthRequest) (response *apiUsers.AuthResponse, err error) {
+		a.Equal("test@example.com", request.Email)
+		a.Equal("qwerty", request.Password)
+		rsp := &apiUsers.AuthResponse{
+			Token: "test-token",
+			Valid: true,
+		}
+
+		return rsp, nil
+	})
+	a.handlerServiceMock.CreateUserCalls(func(ctx context.Context, request *apiUsers.CreateUserRequest) error {
+		a.Equal("test@example.com", request.Email)
+		a.Equal("qwerty", request.Password)
+		a.Equal("test", request.Company)
+		return nil
+	})
 	go a.initServerWithGateway()
+
 }
 
 func TestAPITestSuite(t *testing.T) {
@@ -75,8 +94,6 @@ func (a APITestSuite) initServerWithGateway() {
 	a.Require().NoError(err)
 	a.Logger.Logger.SetLevel(lvl)
 
-	a.handlerServiceMock = &mocks.HandlerServiceMock{}
-
 	err = os.Setenv("ADMIN_HASH", "password")
 	a.Require().NoError(err)
 	cfg, err := config.Load()
@@ -85,7 +102,6 @@ func (a APITestSuite) initServerWithGateway() {
 	simpleAuth := auth.NewSimpleAuth("1234")
 	mw := middleware.NewMiddleware(simpleAuth, a.Logger)
 
-	s := service.NewService(a.Logger)
-	apiHandler := api.NewHandler(s, a.Logger)
+	apiHandler := api.NewHandler(a.handlerServiceMock, a.Logger)
 	api.StartService(cfg.Server, mw, apiHandler, a.Logger)
 }

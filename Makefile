@@ -1,7 +1,7 @@
 COVEROUT := ./coverage.out
 APP_NAME := api-v1-users
-OS := linux
-#OS := darwin
+#OS := linux
+OS := darwin
 
 VERSION_PATH := github.com/rtemb/api-v1-users/pkg/version.ServiceVersion
 
