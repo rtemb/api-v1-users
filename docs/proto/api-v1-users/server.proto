@@ -1,9 +1,11 @@
 syntax = "proto3";
-
 package api.v1.users;
 
 //import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+//import "github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger/options/annotations.proto";
 import "github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis/google/api/annotations.proto";
+//import "github.com/mwitkow/go-proto-validators/validator.proto";
 
 service UsersAPIService {
     rpc CreateUser (CreateUserRequest) returns (CreateUserResponse) {
@@ -19,6 +21,24 @@ service UsersAPIService {
             body: "*"
         };
     }
+
+    rpc AddRole (AddRoleRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            post: "/v1/users/user/{uuid}/role"
+            body: "*"
+        };
+    }
+}
+
+message AddRoleRequest {
+    string uuid = 1;
+    Role role = 2;
+}
+
+enum Role {
+    UNKNOWN = 0;
+    USER = 1;
+    USER_ADMIN = 2;
 }
 
 message AuthRequest {

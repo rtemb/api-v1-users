@@ -7,6 +7,7 @@ APP_NAME   = api-v1-users
 # Proto Dependencies
 PROTODEPS += github.com/gogo/protobuf
 PROTODEPS += github.com/grpc-ecosystem/grpc-gateway
+PROTODEPS += github.com/mwitkow/go-proto-validators
 
 all: codegen
 
@@ -30,6 +31,7 @@ $(PROTOS): %.proto:
   	-I . \
 	-I $(INCLUDEDIR) \
 	-I $(INCLUDEDIR)/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+	-I $(INCLUDEDIR)/github.com/grpc-ecosystem/grpc-gateway \
 	--go_out=plugins=grpc:$(OUT) \
 	--govalidators_out=gogoimport=true:$(OUT) \
 	$*.proto
@@ -40,6 +42,7 @@ gen-proxy:
 	protoc -I/usr/local/include -I. \
 	-I $(INCLUDEDIR) \
 	-I $(INCLUDEDIR)/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+	-I $(INCLUDEDIR)/github.com/grpc-ecosystem/grpc-gateway \
 	--grpc-gateway_out=logtostderr=true:$(OUT) \
     $(APP_NAME)/server.proto
 
@@ -48,5 +51,6 @@ gen-swagger:
 	protoc -I/usr/local/include -I. \
 	-I $(INCLUDEDIR) \
 	-I $(INCLUDEDIR)/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+	-I $(INCLUDEDIR)/github.com/grpc-ecosystem/grpc-gateway \
 	--swagger_out=logtostderr=true:$(SWAGGER) \
     $(APP_NAME)/server.proto

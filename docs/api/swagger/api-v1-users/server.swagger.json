@@ -74,6 +74,44 @@
           "UsersAPIService"
         ]
       }
+    },
+    "/v1/users/user/{uuid}/role": {
+      "post": {
+        "operationId": "AddRole",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/gatewayruntimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/usersAddRoleRequest"
+            }
+          }
+        ],
+        "tags": [
+          "UsersAPIService"
+        ]
+      }
     }
   },
   "definitions": {
@@ -107,6 +145,17 @@
         "value": {
           "type": "string",
           "format": "byte"
+        }
+      }
+    },
+    "usersAddRoleRequest": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "role": {
+          "$ref": "#/definitions/usersRole"
         }
       }
     },
@@ -167,6 +216,15 @@
         "CREATED"
       ],
       "default": "CREATED"
+    },
+    "usersRole": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "USER",
+        "USER_ADMIN"
+      ],
+      "default": "UNKNOWN"
     },
     "v1usersError": {
       "type": "object",

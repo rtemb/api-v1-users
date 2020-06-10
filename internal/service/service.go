@@ -50,3 +50,7 @@ func (s *Service) Auth(ctx context.Context, req *apiUsers.AuthRequest) (*apiUser
 
 	return res, nil
 }
+
+func (s *Service) AddRole(ctx context.Context, req *apiUsers.AddRoleRequest) error {
+	return nil
+}

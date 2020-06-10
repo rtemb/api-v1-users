@@ -10,6 +10,18 @@ import (
 )
 
 type HandlerServiceMock struct {
+	AddRoleStub        func(context.Context, *api_v1_users.AddRoleRequest) error
+	addRoleMutex       sync.RWMutex
+	addRoleArgsForCall []struct {
+		arg1 context.Context
+		arg2 *api_v1_users.AddRoleRequest
+	}
+	addRoleReturns struct {
+		result1 error
+	}
+	addRoleReturnsOnCall map[int]struct {
+		result1 error
+	}
 	AuthStub        func(context.Context, *api_v1_users.AuthRequest) (*api_v1_users.AuthResponse, error)
 	authMutex       sync.RWMutex
 	authArgsForCall []struct {
@@ -38,6 +50,67 @@ type HandlerServiceMock struct {
 	}
 	invocations      map[string][][]interface{}
 	invocationsMutex sync.RWMutex
+}
+
+func (fake *HandlerServiceMock) AddRole(arg1 context.Context, arg2 *api_v1_users.AddRoleRequest) error {
+	fake.addRoleMutex.Lock()
+	ret, specificReturn := fake.addRoleReturnsOnCall[len(fake.addRoleArgsForCall)]
+	fake.addRoleArgsForCall = append(fake.addRoleArgsForCall, struct {
+		arg1 context.Context
+		arg2 *api_v1_users.AddRoleRequest
+	}{arg1, arg2})
+	fake.recordInvocation("AddRole", []interface{}{arg1, arg2})
+	fake.addRoleMutex.Unlock()
+	if fake.AddRoleStub != nil {
+		return fake.AddRoleStub(arg1, arg2)
+	}
+	if specificReturn {
+		return ret.result1
+	}
+	fakeReturns := fake.addRoleReturns
+	return fakeReturns.result1
+}
+
+func (fake *HandlerServiceMock) AddRoleCallCount() int {
+	fake.addRoleMutex.RLock()
+	defer fake.addRoleMutex.RUnlock()
+	return len(fake.addRoleArgsForCall)
+}
+
+func (fake *HandlerServiceMock) AddRoleCalls(stub func(context.Context, *api_v1_users.AddRoleRequest) error) {
+	fake.addRoleMutex.Lock()
+	defer fake.addRoleMutex.Unlock()
+	fake.AddRoleStub = stub
+}
+
+func (fake *HandlerServiceMock) AddRoleArgsForCall(i int) (context.Context, *api_v1_users.AddRoleRequest) {
+	fake.addRoleMutex.RLock()
+	defer fake.addRoleMutex.RUnlock()
+	argsForCall := fake.addRoleArgsForCall[i]
+	return argsForCall.arg1, argsForCall.arg2
+}
+
+func (fake *HandlerServiceMock) AddRoleReturns(result1 error) {
+	fake.addRoleMutex.Lock()
+	defer fake.addRoleMutex.Unlock()
+	fake.AddRoleStub = nil
+	fake.addRoleReturns = struct {
+		result1 error
+	}{result1}
+}
+
+func (fake *HandlerServiceMock) AddRoleReturnsOnCall(i int, result1 error) {
+	fake.addRoleMutex.Lock()
+	defer fake.addRoleMutex.Unlock()
+	fake.AddRoleStub = nil
+	if fake.addRoleReturnsOnCall == nil {
+		fake.addRoleReturnsOnCall = make(map[int]struct {
+			result1 error
+		})
+	}
+	fake.addRoleReturnsOnCall[i] = struct {
+		result1 error
+	}{result1}
 }
 
 func (fake *HandlerServiceMock) Auth(arg1 context.Context, arg2 *api_v1_users.AuthRequest) (*api_v1_users.AuthResponse, error) {
@@ -168,6 +241,8 @@ func (fake *HandlerServiceMock) CreateUserReturnsOnCall(i int, result1 error) {
 func (fake *HandlerServiceMock) Invocations() map[string][][]interface{} {
 	fake.invocationsMutex.RLock()
 	defer fake.invocationsMutex.RUnlock()
+	fake.addRoleMutex.RLock()
+	defer fake.addRoleMutex.RUnlock()
 	fake.authMutex.RLock()
 	defer fake.authMutex.RUnlock()
 	fake.createUserMutex.RLock()

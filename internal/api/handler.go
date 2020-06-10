@@ -11,6 +11,7 @@ import (
 type HandlerService interface {
 	CreateUser(ctx context.Context, req *apiUsers.CreateUserRequest) error
 	Auth(ctx context.Context, req *apiUsers.AuthRequest) (*apiUsers.AuthResponse, error)
+	AddRole(ctx context.Context, req *apiUsers.AddRoleRequest) error
 }
 
 type Handler struct {

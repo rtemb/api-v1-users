@@ -8,6 +8,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/google/uuid"
 	"github.com/rtemb/api-v1-users/internal/api"
 	"github.com/rtemb/api-v1-users/internal/auth"
 	"github.com/rtemb/api-v1-users/internal/config"
@@ -82,6 +83,23 @@ func (a *APITestSuite) Test_Auth() {
 
 	a.Equal(http.StatusOK, rsp.StatusCode)
 	a.Equal(`{"token":"test-token","valid":true,"errors":[]}`, s)
+}
+
+func (a *APITestSuite) Test_AddRole() {
+	userID := uuid.New().String()
+	req := `{"role": "USER"}`
+	rsp, err := http.Post(
+		"http://localhost:8081/v1/users/user/"+userID+"/role",
+		"application/json",
+		strings.NewReader(req))
+	a.Require().NoError(err)
+
+	body, err := ioutil.ReadAll(rsp.Body)
+	a.Require().NoError(err)
+	s := string(body)
+
+	a.Equal(http.StatusOK, rsp.StatusCode)
+	a.Equal("{}", s)
 }
 
 func (a APITestSuite) initServerWithGateway() {
