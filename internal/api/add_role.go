@@ -18,7 +18,7 @@ func (s *Handler) AddRole(ctx context.Context, req *apiUsers.AddRoleRequest) (*e
 
 	err := s.service.AddRole(ctx, req)
 	if err != nil {
-		return nil, status.Error(codes.Internal, "unable to add the role")
+		return nil, mapInternalToApiErrors(err)
 	}
 
 	return &empty.Empty{}, nil
