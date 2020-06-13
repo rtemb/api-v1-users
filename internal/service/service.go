@@ -52,5 +52,15 @@ func (s *Service) Auth(ctx context.Context, req *apiUsers.AuthRequest) (*apiUser
 }
 
 func (s *Service) AddRole(ctx context.Context, req *apiUsers.AddRoleRequest) error {
+	srvReq := &srvUsers.AddRoleRequest{
+		Uuid: req.Uuid,
+		Role: srvUsers.Role(req.Role),
+	}
+
+	_, err := s.srvUsersClient.AddRole(ctx, srvReq)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

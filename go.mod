@@ -11,7 +11,7 @@ require (
 	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
 	github.com/mwitkow/go-proto-validators v0.3.0
 	github.com/pkg/errors v0.9.1
-	github.com/rtemb/srv-users/pkg/client v0.0.0-20200604205420-e19aebd36f89
+	github.com/rtemb/srv-users/pkg/client v0.0.0-20200613115708-a67dd111238c
 	github.com/sirupsen/logrus v1.5.0
 	github.com/stretchr/testify v1.4.0
 	golang.org/x/sys v0.0.0-20190922100055-0a153f010e69 // indirect
